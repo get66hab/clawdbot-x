@@ -649,3 +649,27 @@ async def register_webhook(req: WebhookRegister) -> Dict[str, Any]:
 
 
 app.include_router(router)
+
+from fastapi.responses import HTMLResponse
+
+@app.get("/", response_class=HTMLResponse)
+async def home() -> str:
+    return f"""
+    <html>
+      <head><title>{APP_NAME}</title></head>
+      <body style="font-family: Arial, sans-serif; max-width: 720px; margin: 40px auto;">
+        <h1>{APP_NAME}</h1>
+        <p>{UTILITY_NOTE}</p>
+        <ul>
+          <li><a href="/api/v1/status">/api/v1/status</a></li>
+          <li><a href="/api/v1/about">/api/v1/about</a></li>
+          <li><a href="/api/v1/snapshot">/api/v1/snapshot</a></li>
+          <li><a href="/docs">/docs</a></li>
+        </ul>
+      </body>
+    </html>
+    """
+
+@app.get("/healthz")
+async def healthz() -> dict:
+    return {"ok": True}
