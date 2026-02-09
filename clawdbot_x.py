@@ -673,3 +673,20 @@ async def home() -> str:
 @app.get("/healthz")
 async def healthz() -> dict:
     return {"ok": True}
+
+
+
+from fastapi.responses import HTMLResponse
+
+@app.get("/", response_class=HTMLResponse)
+async def home():
+    return f"""
+    <h1>{APP_NAME}</h1>
+    <p>{UTILITY_NOTE}</p>
+    <ul>
+      <li><a href="/api/v1/status">/api/v1/status</a></li>
+      <li><a href="/api/v1/about">/api/v1/about</a></li>
+      <li><a href="/api/v1/snapshot">/api/v1/snapshot</a></li>
+      <li><a href="/docs">/docs</a></li>
+    </ul>
+    """
